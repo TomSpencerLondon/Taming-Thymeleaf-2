@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<body>
+<h1 th:text="${pageTitle}">Taming Thymeleaf</h1>
+<h2 th:text="${__${title}__}"></h2>
+<h2>
+    <ul>
+        <li th:each="scientist : ${scientists}">
+            <span th:text="${scientist}"></span>
+        </li>
+    </ul>
+</h2>
+</body>
+</html>
