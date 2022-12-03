@@ -36,9 +36,12 @@
   <body class="h-full">
   ```
 -->
-<div>
+<!-- scope for the function -->
+<div x-data="sidebarMenu()">
   <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
-  <div class="relative z-40 md:hidden" role="dialog" aria-modal="true">
+  <div class="relative z-40 md:hidden" role="dialog" aria-modal="true"
+       @keydown.window.escape="close"
+  >
     <!--
       Off-canvas menu backdrop, show/hide based on off-canvas menu state.
 
@@ -49,9 +52,14 @@
         From: "opacity-100"
         To: "opacity-0"
     -->
-    <div class="fixed inset-0 bg-gray-600 bg-opacity-75"></div>
-
-    <div class="fixed inset-0 z-40 flex">
+    <!-- Dark backdrop (dark background) -->
+    <div class="fixed inset-0 bg-gray-600 bg-opacity-75"
+      x-show="isVisible()"
+    ></div>
+    <!-- Offcanvas itself (white sidebar) -->
+    <div class="fixed inset-0 z-40 flex"
+      x-show="isVisible()"
+    >
       <!--
         Off-canvas menu, show/hide based on off-canvas menu state.
 
@@ -74,7 +82,11 @@
             To: "opacity-0"
         -->
         <div class="absolute top-0 right-0 -mr-12 pt-2">
-          <button type="button" class="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+          <!-- close button for mobile canvas -->
+          <button type="button"
+                  class="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                  @click="close()"
+          >
             <span class="sr-only">Close sidebar</span>
             <!-- Heroicon name: outline/x-mark -->
             <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -217,7 +229,10 @@
   </div>
   <div class="flex flex-1 flex-col md:pl-64">
     <div class="sticky top-0 z-10 flex h-16 flex-shrink-0 bg-white shadow">
-      <button type="button" class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden">
+      <button type="button"
+              class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
+              @click="toggleVisibility()"
+      >
         <span class="sr-only">Open sidebar</span>
         <!-- Heroicon name: outline/bars-3-bottom-left -->
         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -281,7 +296,12 @@
             -->
             <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1"
               x-show="isVisible()"
-              x-transition.duration.500ms
+              x-transition:enter="transition ease-out duration-100"
+              x-transition:enter-start="opacity-0 scale-95"
+              x-transition:enter-end="opacity-100 scale-100"
+              x-transition:leave="transition ease-in duration-75"
+              x-transition:leave-start="opacity-100 scale-100"
+              x-transition:leave-end="opacity-0 scale-95"
             >
               <!-- Active: "bg-gray-100", Not Active: "" -->
               <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
@@ -315,7 +335,22 @@
 <script>
   function userPopupMenu() {
     return {
-      show: true,
+      show: false,
+      toggleVisibility() {
+        this.show = !this.show;
+      },
+      close() {
+        this.show = false;
+      },
+      isVisible() {
+        return this.show === true;
+      }
+    };
+  }
+
+  function sidebarMenu() {
+    return {
+      show: false,
       toggleVisibility() {
         this.show = !this.show;
       },

@@ -15,3 +15,6 @@ ttcli init
 The directory is not empty! Unable to generate project in /Users/tomspencer/Desktop/./taming-thymeleaf
 ✅ Done
 ```
+
+### AlpineJS
+https://alpinejs.dev/directives/transition
