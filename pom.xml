@@ -67,7 +67,7 @@
           <exclude>**/*.html</exclude>
           <exclude>**/*.css</exclude>
           <exclude>**/*.js</exclude>
-          <exclude>**/*.svg</exclude>
+<!--          <exclude>**/*.svg</exclude>-->
         </excludes>
       </resource>
     </resources>
